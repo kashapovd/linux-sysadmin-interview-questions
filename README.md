@@ -1,26 +1,24 @@
-Linux System Administrator/DevOps Interview Questions
-====================================================
+Вопросы для интервью системного администратора Linux/DevOps
+===========================================================
 
-A collection of linux sysadmin/devops interview questions. Feel free to contribute via pull requests, issues or email messages.
+Коллекция вопросов для собеседования linux сисадмина/devops. Не стесняйтесь добавлять свои через pull request'ы, issues или сообщением по электронной почте.
 
+## <a name='toc'>Содержание</a>
 
-## <a name='toc'>Table of Contents</a>
-
-  1. [Contributors](#contributors)
-  1. [General Questions](#general)
-  1. [Simple Linux Questions](#simple)
-  1. [Medium Linux Questions](#medium)
-  1. [Hard Linux Questions](#hard)
-  1. [Expert Linux Questions](#expert)
-  1. [Networking Questions](#network)
-  1. [MySQL Questions](#mysql)
-  1. [DevOps Questions](#devop)
-  1. [Fun Questions](#fun)
-  1. [Demo Time](#demo)
-  1. [Other Great References](#references)
+  1. [Участники](#contributors)
+  1. [Простые вопросы о Linux](#simple)
+  1. [Вопросы среднего уровня о Linux](#medium)
+  1. [Сложные вопросы о Linux](#hard)
+  1. [Вопросы экспертного уровня о Linux](#expert)
+  1. [Вопросы по сетям](#network)
+  1. [Вопросы о MySQL](#mysql)
+  1. [Вопросы о DevOps практиках](#devop)
+  1. [Забавные вопросы](#fun)
+  1. [Время демо](#demo)
+  1. [Другие ссылки](#references)
 
 
-#### [[⬆]](#toc) <a name='contributors'>Contributors:</a>
+#### [[⬆]](#toc) <a name='contributors'>Участники:</a>
 
 * [moregeek](https://github.com/moregeek)
 * [typhonius](https://github.com/typhonius)
@@ -35,62 +33,139 @@ A collection of linux sysadmin/devops interview questions. Feel free to contribu
 * [bharatnc](https://github.com/bharatnc)
 
 
-#### [[⬆]](#toc) <a name='general'>General Questions:</a>
+#### [[⬆]](#toc) <a name='simple'>Простые вопросы о Linux:</a>
 
-* What did you learn yesterday/this week?
-* Talk about your preferred development/administration environment. (OS, Editor, Browsers, Tools etc.)
-* Tell me about the last major Linux project you finished.
-* Tell me about the biggest mistake you've made in [some recent time period] and how you would do it differently today. What did you learn from this experience?
-* Why we must choose you?
-* What function does DNS play on a network?
-* What is HTTP?
-* What is an HTTP proxy and how does it work?
-* Describe briefly how HTTPS works.
-* What is SMTP? Give the basic scenario of how a mail message is delivered via SMTP.
-* What is RAID? What is RAID0, RAID1, RAID5, RAID10?
-* What is a level 0 backup? What is an incremental backup?
-* Describe the general file system hierarchy of a Linux system.
-* Which difference have between public and private SSH key?
+* Какое имя и UID администратора?
+  ```
+  root. UID 0
+  ```
+* Как посмотреть все файлы в каталоге, включая скрытые?
+  ```
+  ls -a
+
+  Ключи:
+    -a или --all включает опцию не игнорирования файлов и директорий, начинающихся с "." (то есть скрытых файлов)
+  ```
+  [Источник](https://man7.org/linux/man-pages/man1/ls.1.html)
+* Какая команда в Unix/Linux удаляет каталог со всем его содержимым?
+  ```
+  rm -rf
+
+  Ключи:
+    -r, -R или --recursive включает опцию рекурсивного удаления
+    -f или --force позволяет не подтверждать удаление, а также не выдавать ошибку, если файла не существует
+  ```
+  [Источник](https://man7.org/linux/man-pages/man1/rm.1.html)
+* Какая команда в Unix/Linux показывает свободную/используемую память? Существует ли свободная память в Linux?
+
+* Как найти строку "my konfu is the best" в файлах каталога рекурсивно?
+  ```
+  grep -R "my konfu is the best" your-dir/
+
+  Ключи:
+    -R обрабатывает каждый файл в указанной директории рекурсивно
+  ```
+  [Источник](https://man7.org/linux/man-pages/man1/grep.1p.html)
+* Как подключиться к удаленному серверу или что такое SSH?
+  ```
+  SSH - протокол удалённого доступа с поддержкой шифрования соединений
+  Подключиться к удалённому серверу:
+    ssh username@host
+    , где username - имя пользователя, под которым выполняется подключение
+          host - IP-адрес или DNS-имя удалённого сервера
+  ```
+* Как получить все переменные окружения и как их можно использовать?
+  ```
+  env
+
+  Использовать можно для разных целей:
+    - для определения расположения исполняемого файла в файловой системе (переменная окружения PATH)
+    - передача дополнительных флагов в различные утилиты (например MAKEFLAGS=-j16 для make)
+    - для передачи значений в приложения
+  ```
+* Я получил "command not found" при запуске ```ifconfig -a```. Что может быть не так?
+  ```
+  Возможны следующие проблемы:
+  - утилита ifconfig не установлена (следует установить пакет net-tools)
+  - неверно сконфигурирована переменная окружения PATH
+  - неверные права исполняемого файла ifconfig
+  ```
+
+* Что произойдет, если я нажму TAB-TAB?
+  ```
+  Многие командные оболочки резервируют двойное нажатие TAB для автоматического дополнения названий файлов, директорий, утилит. Можно настроить обочку таким образом, что она будет дополнять названия ключей утилит
+  ```
+* Какая команда показывает доступное свободное пространство на диске в Unix/Linux?
+  ```
+  df -h
+
+  Ключи:
+   -h использовать человеко-читаемый вывод
+  ```
+  [Источник](https://man7.org/linux/man-pages/man1/df.1p.html)
+* Какие команды вы знаете, которые могут быть использованы для проверки DNS записей?
+  ```
+  Следующие утилиты позволяют проверять DNS-записи:
+    - host
+    - dig
+    - nslookup
+  ```
+* Какая команда Unix/Linux используется для изменения владельца файла, прав доступа к файлу?
+  ```
+  Для изменения владельца файла используется chown
+  Для изменения прав доступа используется chmod
+  ```
+* Что делает команда ```chmod +x FILENAME```?
+  ```
+  Команда chmod +x FILENAME активирует возможность исполнять файл FILENAME. FILENAME может быть скриптом или бинарным исполняемым файлом
+  ```
+  [Источник](https://man.openbsd.org/chmod.1)
+* Что означают права 0750 для файла?
+  ```
+  Пример:
+  -rwxr-x--- 1 yaroslav users 0 Jan 14 23:43 test-file (вывод команды ls)
+
+  Данные права для файла test-file означают разрешить чтение, запись и исполнение файла его владельцу (yaroslav), разрешить чтение пользователям из группы users, а всем остальным не разрешать ничего.
+  ```
+* Что означают права 0750 для каталога?
+  ```
+  Пример:
+  drwxr-x--- 2 yaroslav users 4096 Jan 14 23:43 test-dir (вывод команды ls)
+
+  Данные права для каталога test-dir означают разрешить чтение, запись и исполнение файлов из каталога его владельцу (yaroslav), разрешить чтение каталога пользователям из группы users, а всем остальным не разрешать ничего в этом каталоге.
+  ```
+* Как добавить пользователя без прав входа в систему?
+* Как добавить/убрать пользователя в/из группы?
+* Что такое bash алиас?
+* Как установить email для пользователя root?
+* Что делает Ctrl+c?
+* Что содержится в файле /etc/services?
+  ```
+  В данном файле содержится соответствие сетевых портов и названий служб, которые на них функционируют
+  ```
+  [Источник](https://man7.org/linux/man-pages/man5/services.5.html)
+* Как перенаправить STDOUT и STDERR в bash?
+* Какая разница между UNIX и Linux?
+  ```
+  Между UNIX и Linux есть существенная разница: UNIX - это операционная система, тогда как Linux всего лишь ядро для ОС.
+  ```
+* В чем разница между Telnet и SSH?
+  ```
+  Разница между Telnet и SSH в том, что первый протокол не использует шифрования для обеспечения удалённого доступа. Таким образом, пароли, вводимые в териминале, передаются в открытом виде (plain-text).
+   ```
+* Объясните три усредненных значения load average и что они означают? Какой командой можно посмотреть load average?
+* Можете назвать букву в нижнем регистре, которая не является валидной опцией для GNU ```ls```?
+* Что такое модуль ядра Linux?
+  ```
+  Модули ядра - это расшиирения в виде бинарных файлов. Они добавляют различные функционал к Linux. Например, модулем может драйвер для дисплея или драйвер для поддержки сетевого протокола.
+  ```
+* Расскажите по шагам как загрузить систему в однопользовательском режиме для решения проблем.
+* Расскажите по шагам как вы будете решать проблему с ошибкой 404 в веб-приложении, которое вы обслуживаете.
 
 
-#### [[⬆]](#toc) <a name='simple'>Simple Linux Questions:</a>
+#### [[⬆]](#toc) <a name='medium'>Вопросы среднего уровня о Linux:</a>
 
-* What is the name and the UID of the administrator user?
-* How to list all files, including hidden ones, in a directory?
-* What is the Unix/Linux command to remove a directory and its contents?
-* Which command will show you free/used memory? Does free memory exist on Linux?
-* How to search for the string "my konfu is the best" in files of a directory recursively?
-* How to connect to a remote server or what is SSH?
-* How to get all environment variables and how can you use them?
-* I get "command not found" when I run ```ifconfig -a```. What can be wrong?
-* What happens if I type TAB-TAB?
-* What command will show the available disk space on the Unix/Linux system?
-* What commands do you know that can be used to check DNS records?
-* What Unix/Linux commands will alter a files ownership, files permissions?
-* What does ```chmod +x FILENAME``` do?
-* What does the permission 0750 on a file mean?
-* What does the permission 0750 on a directory mean?
-* How to add a new system user without login permissions?
-* How to add/remove a group from a user?
-* What is a bash alias?
-* How do you set the mail address of the root/a user?
-* What does CTRL-c do?
-* What does CTRL-d do?
-* What does CTRL-z do?
-* What is in /etc/services?
-* How to redirect STDOUT and STDERR in bash? (> /dev/null 2>&1)
-* What is the difference between UNIX and Linux.
-* What is the difference between Telnet and SSH?
-* Explain the three load averages and what do they indicate. What command can be used to view the load averages?
-* Can you name a lower-case letter that is not a valid option for GNU ```ls```?
-* What is a Linux kernel module?
-* Walk me through the steps in booting into single user mode to troubleshoot a problem.
-* Walk me through the steps you'd take to troubleshoot a 404 error on a web application you administer.
-* What is ICMP protocol? Why do you need to use?
-
-#### [[⬆]](#toc) <a name='medium'>Medium Linux Questions:</a>
-
-* What do the following commands do and how would you use them?
+* Что делают следующие команды и как вы из будете использовать?
  * ```tee```
  * ```awk```
  * ```tr```
@@ -101,188 +176,178 @@ A collection of linux sysadmin/devops interview questions. Feel free to contribu
  * ```watch```
  * ```head```
  * ```tail```
- * ```less```
- * ```cat```
- * ```touch```
- * ```sar```
- * ```netstat```
- * ```tcpdump```
- * ```lsof```
-* What does an ```&``` after a command do?
-* What does ```& disown``` after a command do?
-* What is a packet filter and how does it work?
-* What is Virtual Memory?
-* What is swap and what is it used for?
-* What is an A record, an NS record, a PTR record, a CNAME record, an MX record?
-* Are there any other RRs and what are they used for?
-* What is a Split-Horizon DNS?
-* What is the sticky bit?
-* What does the immutable bit do to a file?
-* What is the difference between hardlinks and symlinks? What happens when you remove the source to a symlink/hardlink?
-* What is an inode and what fields are stored in an inode?
-* How to force/trigger a file system check on next reboot?
-* What is SNMP and what is it used for?
-* What is a runlevel and how to get the current runlevel?
-* What is SSH port forwarding?
-* What is the difference between local and remote port forwarding?
-* What are the steps to add a user to a system without using useradd/adduser?
-* What is MAJOR and MINOR numbers of special files?
-* Describe the mknod command and when you'd use it.
-* Describe a scenario when you get a "filesystem is full" error, but 'df' shows there is free space.
-* Describe a scenario when deleting a file, but 'df' not showing the space being freed.
-* Describe how 'ps' works.
-* What happens to a child process that dies and has no parent process to wait for it and what’s bad about this?
-* Explain briefly each one of the process states.
-* How to know which process listens on a specific port?
-* What is a zombie process and what could be the cause of it?
-* You run a bash script and you want to see its output on your terminal and save it to a file at the same time. How could you do it?
-* Explain what echo "1" > /proc/sys/net/ipv4/ip_forward does.
-* Describe briefly the steps you need to take in order to create and install a valid certificate for the site https://foo.example.com.
-* Can you have several HTTPS virtual hosts sharing the same IP?
-* What is a wildcard certificate?
-* Which Linux file types do you know?
-* What is the difference between a process and a thread? And parent and child processes after a fork system call?
-* What is the difference between exec and fork?
-* What is "nohup" used for?
-* What is the difference between these two commands?
+* Что делает ```&``` в конце команды?
+* Что делает ```& disown``` в конце команды?
+* Что такое пакетный фильтр и как он работает?
+* Что такое виртуальная память?
+* Что такое swap и для чего он используется?
+* Что такое A-запись, NS-запись, PTR-запись, CNAME-запись, MX-запись?
+* Знаете ли вы еще какие-либо RR-записи и для чего они используются?
+* Что такое Split-Horizon DNS?
+* Что такое sticky bit?
+* Что делает установленный на файл immutable bit?
+* Какая разница между символическими и жесткими ссылками? Что произойдет если удалить символическую/жесткую ссылку?
+* Что такое inode и какая информация хранится в inode?
+* Как принудительно запустить проверку файловой системы при следующей перезагрузке?
+* Что такое SNMP и для чего он используется?
+* Что такое уровень запуска и как узнать текущий?
+* Что такое SSH port forwarding?
+* Какая разница между локальным и удаленным пробросом портов SSH?
+* Какие шаги надо предпринять, чтоб добавить пользователя в систему не используя утилиты useradd/adduser?
+* Что такое MAJOR и MINOR нумерация спец. файлов?
+* Опишите команду mknod и когда она используется?
+* Опишите сценарий, когда вы можете получить ошибку "filesystem is full", но 'df' показывает наличие свободного места.
+* Опишите сценарий, когда вы удаляете файл,но 'df' не показывает, что место освободилось.
+* Опишите как работает 'ps'.
+* Что случиться, если процесс-потомок умрет и не будет процесса-родителя, ожидающего его и что в этом плохого?
+* Объясните кратко каждое из состояний процесса.
+* Как узнать какой процесс слушает указанный порт?
+* Что такое зомби-процесс и какова его причина возникновения?
+* Вы запускаете bash скрипт и хотите видеть его вывод на экране и одновременно сохранить этот вывод в файл. Как это сделать?
+* Объясните, что делает echo "1" > /proc/sys/net/ipv4/ip_forward.
+* Кратко объясните, какие шаги надо предпринять, чтоб создать и установить сертификат для сайта https://foo.example.com.
+* Можно ли создать несколько HTTPS виртуальных хостов, используя один IP?
+* Что такое wildcard сертификат?
+* Какие типы файловых систем в Linux вам известны?
+* В чем разница между процессом и потоком? И родительским и потомком процессами после системного вызова fork?
+* В чем разница между exec и fork?
+* Для чего используется ```nohup```?
+* В чем разница между этими двумя командами?
  * ```myvar=hello```
  * ```export myvar=hello```
-* How many NTP servers would you configure in your local ntp.conf?
-* What does the column 'reach' mean in ```ntpq -p``` output?
-* You need to upgrade kernel at 100-1000 servers, how you would do this?
-* How can you get Host, Channel, ID, LUN of SCSI disk?
-* How can you limit process memory usage?
-* What is bash quick substitution/caret replace(^x^y)?
-* Do you know of any alternative shells? If so, have you used any?
-* What is a tarpipe (or, how would you go about copying everything, including hardlinks and special files, from one server to another)?
-* How can you tell if the httpd package was already installed?
-* How can you list the contents of a package?
-* How can you determine which package is better: openssh-server-5.3p1-118.1.el6_8.x86_64 or openssh-server-6.6p1-1.el6.x86_64 ?
-* Can you explain to me the difference between block based, and object based storage?
-
-#### [[⬆]](#toc) <a name='hard'>Hard Linux Questions:</a>
-
-* What is a tunnel and how you can bypass a http proxy?
-* What is the difference between IDS and IPS?
-* What shortcuts do you use on a regular basis?
-* What is the Linux Standard Base?
-* What is an atomic operation?
-* Your freshly configured http server is not running after a restart, what can you do?
-* What kind of keys are in ~/.ssh/authorized_keys and what it is this file used for?
-* I've added my public ssh key into authorized_keys but I'm still getting a password prompt, what can be wrong?
-* Did you ever create RPM's, DEB's or solaris pkg's?
-* What does ```:(){ :|:& };:``` do on your system?
-* How do you catch a Linux signal on a script?
-* Can you catch a SIGKILL?
-* What's happening when the Linux kernel is starting the OOM killer and how does it choose which process to kill first?
-* Describe the linux boot process with as much detail as possible, starting from when the system is powered on and ending when you get a prompt.
-* What's a chroot jail?
-* When trying to umount a directory it says it's busy, how to find out which PID holds the directory?
-* What's LD_PRELOAD and when it's used?
-* You ran a binary and nothing happened. How would you debug this?
-* What are cgroups? Can you specify a scenario where you could use them?
-* How can you remove/delete a file with file-name consisting of only non-printable/non-type-able characters?
-* How can you increase or decrease the priority of a process in Linux?
+* Как много NTP севреров настроено в вашем локальном ntp.conf?
+* Что означает колонка 'reach' в выводе ```ntpq-p```?
+* Вам необходимо обновить ядро на 100-1000 серверах, как вы будете это делать?
+* Как можно получить Host, Channel, IS, LUN для SCSI диска?
+* Как можно ограничить использование памяти для процесса?
+* Что такое быстрый поиск и замена в bash (^x^y)?
+* Какие вы знаете альтернативные оболочки? Какую вы используете?
+* Что такое tarpipe (или, как вы будете копировать все, включая жесткие ссылки и специальные файлы, с одного сервера на другой)?
+* Как можно проверить, что пакет httpd уже был установлен?
+* Как посмотреть содержимое установочного пакета?
+* Как вы определите какой пакет лучше: openssh-server-5.3p1-118.1.el6_8.x86_64 или openssh-server-6.6p1-1.el6.x86_64?
+* Как вы можете объяснить мне разницу между хранилищем, основанным на блоках и объектах?
 
 
-#### [[⬆]](#toc) <a name='expert'>Expert Linux Questions:</a>
+#### [[⬆]](#toc) <a name='hard'>Сложные вопросы о Linux:</a>
 
-* A running process gets ```EAGAIN: Resource temporarily unavailable``` on reading a socket. How can you close this bad socket/file descriptor without killing the process?
-* What do you control with swapiness?
-* How do you change TCP stack buffers? How do you calculate it?
-* What is Huge Tables? Why isn't it enabled by default? Why and when use it?
-* What is LUKS? How to use it?
-
-
-#### [[⬆]](#toc) <a name='network'>Networking Questions:</a>
-
-* What is localhost and why would ```ping localhost``` fail?
-* What is the similarity between "ping" & "traceroute" ? How is traceroute able to find the hops.
-* What is the command used to show all open ports and/or socket connections on a machine?
-* Is 300.168.0.123 a valid IPv4 address?
-* Which IP ranges/subnets are "private" or "non-routable" (RFC 1918)?
-* What is a VLAN?
-* What is ARP and what is it used for?
-* What is the difference between TCP and UDP?
-* What is the purpose of a default gateway?
-* What is command used to show the routing table on a Linux box?
-* A TCP connection on a network can be uniquely defined by 4 things. What are those things?
-* When a client running a web browser connects to a web server, what is the source port and what is the destination port of the connection?
-* How do you add an IPv6 address to a specific interface?
-* You have added an IPv4 and IPv6 address to interface eth0. A ping to the v4 address is working but a ping to the v6 address gives you the response ```sendmsg: operation not permitted```. What could be wrong?
-* What is SNAT and when should it be used?
-* Explain how could you ssh login into a Linux system that DROPs all new incoming packets using a SSH tunnel.
-* How do you stop a DDoS attack?
-* How can you see content of an ip packet?
-* What is IPoAC (RFC 1149)?
-* What will happen when you bind port 0?
+* Что такое туннель и как вы можете обойти http прокси?
+* В чем разница между IDS и IPS?
+* Какие горячие клавиши вы используете регулярно?
+* Что такое Linux Standard Base?
+* Что такое атомарная операция?
+* Вы только что настроили http сервер, который не запустился после рестарта. Что вы будете делать?
+* Какие ключи содержатся в ~/.ssh/authorized_keys и для чего нужен этот файл?
+* Я добавил свой публичный ключ в authorized_keys, но до сих пор получаю запрос пароля. Что может быть не так?
+* Вы когда-нибудь собирали RPM, DEB или solaris пакеты?
+* Что сделает ```:(){ :|:& };:``` с вашей системой?
+* Как можно перехватить Linux сигнал из скрипта?
+* Можно ли перехватить SIGKILL?
+* Что происходит, когда ядро Linux запускает OOM killer и как он выбирает какой процесс необходимо убить в первую очередь?
+* Опишите процесс загрузки Linux с максимально возможным количеством деталей, начиная с момента включения компьютера и заканчивая получением приглашения командной строки.
+* Что такое закрытие в chroot?
+* При попытке отмонтировать каталог получаем ошибку занятости, как найти какой PID держит каталог?
+* Что такое LD_PRELOAD и когда он используется?
+* Вы запустили бинарник и ничего не произошло. Как вы будете искать проблему?
+* Что такое cgroups? Можете ли вы указать сценарий, когда это может быть использовано?
+* Как можно удалить файл, имя которого содержит непечатные символы?
+* Как можно увеличить/уменьшить приоритет процесса в Linux?
+* Что такое run-levels в Linux?
 
 
+#### [[⬆]](#toc) <a name='expert'>Вопросы экспертного уровня о Linux:</a>
 
-#### [[⬆]](#toc) <a name='mysql'>MySQL questions:</a>
-
-* How do you create a user?
-* How do you provide privileges to a user?
-* What is the difference between a "left" and a "right" join?
-* Explain briefly the differences between InnoDB and MyISAM.
-* Describe briefly the steps you need to follow in order to create a simple master/slave cluster.
-* Why should you run "mysql_secure_installation" after installing MySQL?
-* How do you check which jobs are running?
-* How would you take a backup of a MySQL database?
-
-#### [[⬆]](#toc) <a name='devop'>DevOps Questions:</a>
-
-* Can you describe your workflow when you create a script?
-* What is GIT?
-* What is a dynamically/statically linked file?
-* What does "./configure && make && make install" do?
-* What is puppet/chef/ansible used for?
-* What is Nagios/Zenoss/NewRelic used for?
-* What is Jenkins/TeamCity/GoCI used for?
-* What is the difference between Containers and VMs?
-* How do you create a new postgres user?
-* What is a virtual IP address? What is a cluster?
-* How do you print all strings of printable characters present in a file?
-* How do you find shared library dependencies?
-* What is Automake and Autoconf?
-* ./configure shows an error that libfoobar is missing on your system, how could you fix this, what could be wrong?
-* What are the advantages/disadvantages of script vs compiled program?
-* What's the relationship between continuous delivery and DevOps?
-* What are the important aspects of a system of continuous integration and deployment?
-* How would you enable network file sharing within AWS that would allow EC2 instances in multiple availability zones to share data?
-
-#### [[⬆]](#toc) <a name='fun'>Fun Questions:</a>
-
-* A careless sysadmin executes the following command: ```chmod 444 /bin/chmod ``` - what do you do to fix this?
-* I've lost my root password, what can I do?
-* I've rebooted a remote server but after 10 minutes I'm still not able to ssh into it, what can be wrong?
-* If you were stuck on a desert island with only 5 command-line utilities, which would you choose?
-* You come across a random computer and it appears to be a command console for the universe. What is the first thing you type?
-* Tell me about a creative way that you've used SSH?
-* You have deleted by error a running script, what could you do to restore it?
-* What will happen on 19 January 2038?
-* How to reboot server when reboot command is not responding?
+* Запущенный процесс получает ```EAGAIN: Resource temporarily unavailable``` при чтении сокета. Как можно закрыть этот плохой сокет/файловый дескриптор без убивания процесса?
 
 
-#### [[⬆]](#toc) <a name='demo'>Demo Time:</a>
+#### [[⬆]](#toc) <a name='network'>Вопросы по сетям:</a>
 
-* Unpack test.tar.gz without man pages or google.
-* Remove all "*.pyc" files from testdir recursively?
-* Search for "my konfu is the best" in all *.py files.
-* Replace the occurrence of "my konfu is the best" with "I'm a linux jedi master" in all *.txt files.
-* Test if port 443 on a machine with IP address X.X.X.X is reachable.
-* Get http://myinternal.webserver.local/test.html via telnet.
-* How to send an email without a mail client, just on the command line?
-* Write a ```get_prim``` method in python/perl/bash/pseudo.
-* Find all files which have been accessed within the last 30 days.
-* Explain the following command ```(date ; ps -ef | awk '{print $1}' | sort | uniq | wc -l ) >> Activity.log```
-* Write a script to list all the differences between two directories.
-* In a log file with contents as ```<TIME> : [MESSAGE] : [ERROR_NO] - Human readable text``` display summary/count of specific error numbers that occurred every hour or a specific hour.
+* Что такое localhost и почему ```ping localhost``` может не работать?
+* В чем сходство между "ping" и "traceroute"? Как traceroute находит промежуточные хосты?
+* Какая команда можно использовать для поиска всех открытых портов и/или соединений с сокетами на машине?
+* Валидный ли IP адрес 300.168.0.123?
+* Какие IP диапазоны/подсети являются частными или не маршрутизируемыми (RFC 1918)?
+* Что такое VLAN?
+* Что такое ARP и для чего используется?
+* В чем разница между TCP и UDP?
+* Какова цель шлюза по умолчанию?
+* Какая команда используется для просмотра таблицы маршрутизации в Linux?
+* TCP-соединение в сети может быть однозначно определено четырьмя вещами. Что это за вещи?
+* Когда клиент использует бразер для подключения к веб-серверу, какие порты источника и назначения будут у этого соединения?
+* Как можно добавить IPv6 адрес для конкретного интерфейса?
+* Вы добавили IPv4 и IPv6 адреса на eth0 интерфейс. Ping на v4 адрес работает, но ping на v6 адрес дает ответ ```sendmsg: operation not permitted```. Что может быть не так?
+* Что такое SNAT и когда он должен быть использован?
+* Объясните, как можно войти по ssh на Linux сервер, который сбрасывает (DROP) все новые входящие пакеты, используя SSH туннель.
+* Как вы будете противодействовать DDoS атаке?
+* Как можно посмотреть содержимое ip пакета?
+* Что такое IPoAC (RFC 1149)?
 
 
-#### [[⬆]](#toc) <a name='references'>Other Great References:</a>
+#### [[⬆]](#toc) <a name='mysql'>Вопрос о MySQL:</a>
 
-Some questions are 'borrowed' from other great references like:
+* Как создать пользователя?
+* Как предоставить права пользователю?
+* В чем разница между 'left' и 'right' join?
+* Объясните кратко разницу между InnoDB и MyISAM.
+* Зачем надо запускать "mysql_secure_installation" после установки MySQL?
+* Как проверить какие задачи запущены?
+* Как вы делаете бекап MySQL?
+
+
+#### [[⬆]](#toc) <a name='devop'>Вопросы о DevOps:</a>
+
+* Как вы можете описать ваш workflow при создании скрипта?
+* Что такое GIT?
+* Что такое динамически/статически слинкованные файлы?
+* Что делает "./configure && make && make install"?
+* Для чего используется puppet/chef/ansible?
+* Для чего используется Nagios/Zenoss/NewRelic?
+* Для чего используется Jenkins/TeamCity/GoCI?
+* В чем разница между контейнеризацией и виртуализацией?
+* Как создать нового postgres пользователя?
+* Что такое виртуальный IP адрес? Что такое кластер?
+* Как вывести все строки печатных символов, присутствующих в файле?
+* Как найти зависимости для библиотеки?
+* Что такое Automake и Autoconf?
+* ./configure вывела ошибку, что libfoobar не найдена в система, как вы будете исправлять это? Что может быть не так?
+* Какие преимущества/недостатки у скриптов против компилируемых программ?
+* Какая связь между непрерывной доставкой (continuous delivery) и DevOps?
+* Каковы важные аспекты системы непрерывной интеграции и развертывания?
+* Как бы вы включили совместное использование сетевых файлов в AWS, которые позволили бы экземплярам EC2 в нескольких зонах доступности обмениваться данными?
+
+
+#### [[⬆]](#toc) <a name='fun'>Забавные вопросы::</a>
+
+* Небрежный сисадмин запустил команду ```chmod 444 /bin/chmod``` - как ву будете исправлять проблему?
+* Я потерял пароль пользователя root. Что мне делать?
+* Я перезагрузил удаленный сервер, но спустя 10 минут все еще не могу зайти по SSH. Что может быть не так?
+* Если бы вы попали на пустынный остров с 5 утилитами коммандной строки, то какие утилиты это были бы?
+* Вы сталкиваетесь с случайным компьютером и, похоже, это консоль к мирозданию. Что первое вы наберете?
+* Расскажите о креативном использовании ssh в вашей практике?
+* Вы случайно удалили запущенный скрипт, как вы будете его восстанавливать?
+* Что случится 19 января 2038 года?
+* Как перезагрузить сервер когда команда reboot не доступна?
+
+
+#### [[⬆]](#toc) <a name='demo'>Время демо:</a>
+
+* Распакуйте test.tar.gz без использования man и google.
+* Удалите все "*.pyc" файлы рекурсивно из testdir.
+* Найдите все "my konfu is the best" во всех *.py файлах.
+* Замените все вхождения "my konfu is the best" на "I'm a linux jedi master" во всех *.txt файлах.
+* Проверьте доступность 443 порта на машине с IP X.X.X.X.
+* Получите страницу http://myinternal.webserver.local/test.html при помощи telnet.
+* Как отправить email без почтового клиента, только с помощью командной строки?
+* Напишите метод ```get_prim``` в python/perl/bash/pseudo.
+* Найдите все файлы, доступ к которым был осуществлен за последние 30 дней.
+* Объясните следующую команду ```(date ; ps -ef | awk '{print $1}' | sort | uniq | wc -l ) >> Activity.log```
+* Напишите скрипт, показывающий разницу двух каталогов.
+* Из лог файла, содержащего ```<TIME> : [MESSAGE] : [ERROR_NO] - Human readable text``` выведите сумму/количество указанной ошибки, которая повторяется каждый час, или указанный час.
+
+
+#### [[⬆]](#toc) <a name='references'>Другие ссылки:</a>
+
+Некоторые вопросы 'заимствованы' из других замечательных ссылок, например:
 
 * https://github.com/darcyclarke/Front-end-Developer-Interview-Questions
 * https://github.com/kylejohnson/linux-sysadmin-interview-questions/blob/master/test.md
